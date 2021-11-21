@@ -1,0 +1,11 @@
+{% if commentList %}
+
+    
+    <p>댓글 목록</h3> </p>
+    
+    <ul>
+    {% for comment in commentList %}
+        <li> {{comment.Post_id}} - {{comment.Content}}</li>
+    {% endfor %}
+    </ul>
+{% endif %}

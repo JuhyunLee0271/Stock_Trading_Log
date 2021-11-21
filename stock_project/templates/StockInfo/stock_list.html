@@ -1,0 +1,11 @@
+{% if stockList %}
+
+    <ul>
+    {% for stock in stockList %}
+        <li>{{stock.Stock_id}} {{stock.Name}} : {{stock.Price_now}}</li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+    <p> 조회된 주식이 없습니다.</p>
+{% endif %}
