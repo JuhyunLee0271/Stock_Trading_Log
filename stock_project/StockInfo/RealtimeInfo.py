@@ -2,8 +2,6 @@ from pykrx import stock
 import time
 from datetime import datetime
 
-from pykrx.website.krx import market
-
 """
 ReatimeInfo.py
     KOSPI, KOSDAQ의 모든 종목들에 대해 매 10분마다 실시간(종가) 가격을 
@@ -15,19 +13,28 @@ class TodayInfoCrawler:
     def __init__(self):
         self.CODE = stock.get_market_ticker_list(market="KOSPI") + stock.get_market_ticker_list(market="KOSDAQ")
         self.today = str(datetime.now().date()).replace('-','')
+        # self.today = "20211122"
         self.KOSPI = None
         self.KOSDAQ = None
         self.PRICE_NOW = None
     
     def UpdateStockPrice(self):
-        self.KOSPI = stock.get_market_ohlcv_by_ticker(self.today, market="KOSPI")['종가'].to_dict()
+        self.KOSPI = stock.get_market_price_change_by_ticker(self.today, self.today, market="KOSPI")[['종목명', '등락률', '종가', '거래량', '거래대금']].to_dict('index')
         time.sleep(1)
-        self.KOSDAQ = stock.get_market_ohlcv_by_ticker(self.today, market="KOSDAQ")['종가'].to_dict()
-        self.PRICE_NOW = dict(self.KOSPI, **self.KOSDAQ)
+        self.KOSDAQ = stock.get_market_price_change_by_ticker(self.today, self.today, market="KOSDAQ")[['종목명', '등락률', '종가', '거래량', '거래대금']].to_dict('index')
+        self.PRICE_NOW = sorted(dict(self.KOSPI, **self.KOSDAQ).items(), key=lambda x: -x[1]['거래대금'])
 
-def main():
-    sc = TodayInfoCrawler();    sc.UpdateStockPrice()
-    print(len(sc.PRICE_NOW))
+# def main():
+    # sc = TodayInfoCrawler();    sc.UpdateStockPrice()
+    # page_num = 1
+    # price_now = sc.PRICE_NOW[10*(page_num-1):10*(page_num)]
+    # stock_list = []
     
-if __name__ == "__main__":
-    main()
+    # for code in price_now:
+    #     stock_list.append([code[1]['종목명'], code[1]['등락률'], code[1]['종가'], code[1]['거래량'], code[1]['거래대금']])
+        
+    # for stock in stock_list:
+    #     print(stock)
+
+# if __name__ == "__main__":
+#     main()
