@@ -1,11 +1,16 @@
-{% if commentList %}
+{% if stock_day_info %}
 
-    
-    <p>댓글 목록</h3> </p>
+    <div><p><h1>{{stock.name}}</h1></p></div>
+    <br>
+    <div><p>최근 {{10*(page_num-1)+1}} ~ {{10*page_num}} 일 </p></div>
     
     <ul>
-    {% for comment in commentList %}
-        <li> {{comment.Post_id}} - {{comment.Content}}</li>
+    {% for day_info in stock_day_info %}
+        <!-- <li> {{}} {{}} {{}} {{}} </li> -->
     {% endfor %}
     </ul>
+
+{% else %}
+    <p>조회된 정보가 없습니다. </p>
+
 {% endif %}
