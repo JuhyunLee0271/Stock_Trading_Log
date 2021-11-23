@@ -1,8 +1,8 @@
-{% if stockList %}
+{% if stock_list %}
 
     <ul>
-    {% for stock in stockList %}
-        <li>{{stock.Stock_id}} {{stock.Name}} : {{stock.Price_now}}</li>
+    {% for stock in stock_list %}
+        <li>{{stock}}</li>
     {% endfor %}
     </ul>
 
