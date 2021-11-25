@@ -1,16 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.db import connection
-from .models import DayInfo, Stock, Comment
+from .models import DayInfo, Stock, 
 from .RealtimeInfo import TodayInfoCrawler
 from .DayInfo import DayInfoCrawler
-from django.utils import timezone
 
-# Controller 
+sc = TodayInfoCrawler()
+
+# Controller
+# 주식 종목 조회 
 def list(request, page_num):
     # Update Stock Price
-    sc = TodayInfoCrawler()
     sc.UpdateStockPrice()
-    time = timezone.now()
     stock_list = []
     if Stock.objects.all().count() == 0:
         for code in sc.PRICE_NOW:

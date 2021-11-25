@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% if stock_detail %}
     <ul>
     {% for info in stock_detail %}
@@ -7,15 +8,25 @@
 {% endif %}
 
 {% if commentList %}
+=======
+{% if stock_day_info %}
+>>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 
-    
-    <p>댓글 목록</h3> </p>
+    <div><p><h1>{{stock.name}}</h1></p></div>
+    <br>
+    <div><p>최근 {{10*(page_num-1)+1}} ~ {{10*page_num}} 일 </p></div>
     
     <ul>
-    {% for comment in commentList %}
-        <li> {{comment.Post_id}} - {{comment.Content}}</li>
+    {% for day_info in stock_day_info %}
+        <li>{{day_info}}</li>>
     {% endfor %}
     </ul>
+<<<<<<< HEAD
 {% else %}
     <h5>댓글이 없습니다.</h5>
+=======
+
+{% else %}
+    <p>조회된 정보가 없습니다. </p>
+>>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 {% endif %}
