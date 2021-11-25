@@ -1,32 +1,25 @@
-<<<<<<< HEAD
 {% if stock_detail %}
     <ul>
+    <h5>{{stock_name.name}}</h5>
     {% for info in stock_detail %}
-        <li> {{info.date}} : {{ info.stock.name }} {{ info.close_price }} </li>
+        <!-- <li> {{info.date}} : {{ info.stock.name }} {{ info.close_price }} </li> -->
+        <li> {{info.date}} - {{info.open_price}} {{info.high_price}} {{info.low_price}} {{info.closing_price}} {{info.transaction_value}} {{info.transaction_amount}}
+                             {{info.fluctuation_rate}} {{info.bps}} {{info.per}} {{info.pbr}} {{info.eps}} {{info.market_cap}}</li>
     {% endfor %}
     </ul>
 {% endif %}
 
 {% if commentList %}
-=======
-{% if stock_day_info %}
->>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 
     <div><p><h1>{{stock.name}}</h1></p></div>
     <br>
-    <div><p>최근 {{10*(page_num-1)+1}} ~ {{10*page_num}} 일 </p></div>
     
     <ul>
     {% for day_info in stock_day_info %}
         <li>{{day_info}}</li>>
     {% endfor %}
     </ul>
-<<<<<<< HEAD
+    
 {% else %}
     <h5>댓글이 없습니다.</h5>
-=======
-
-{% else %}
-    <p>조회된 정보가 없습니다. </p>
->>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 {% endif %}

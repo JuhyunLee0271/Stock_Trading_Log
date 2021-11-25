@@ -6,9 +6,10 @@
 
 {% if stock_list %}
 
+    거래대금 별 
     <ul>
     {% for stock in stock_list %}
-        <li>{{stock.0}}</li>
+        <li>{{stock}}</li>
     {% endfor %}
     </ul>
 

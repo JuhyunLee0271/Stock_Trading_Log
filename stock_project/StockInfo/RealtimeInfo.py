@@ -15,8 +15,8 @@ class TodayInfoCrawler:
         
         # 12시가 넘어가면 그날의 장 시작전까지는 정보가 없기 때문에
         # 테스트 시 today를 하드코딩 해야 됨 
-        # self.today = str(datetime.now().date()).replace('-','')
-        self.today = "20211123"
+        self.today = str(datetime.now().date()).replace('-','')
+        # self.today = "20211125"
         self.KOSPI = None
         self.KOSDAQ = None
         self.PRICE_NOW = None

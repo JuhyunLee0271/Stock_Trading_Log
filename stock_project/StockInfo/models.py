@@ -14,64 +14,59 @@ class Stock(models.Model):
     name = models.CharField(db_column='Name', unique=True, max_length=30)  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'stock'
 
 class Comment(models.Model):
     post_id = models.AutoField(db_column='Post_id', primary_key=True)  # Field name made lowercase.
     content = models.CharField(db_column='Content', max_length=30)  # Field name made lowercase.
     create_time = models.DateTimeField(db_column='Create_time')  # Field name made lowercase.
-    user = models.OneToOneField('User', on_delete=models.CASCADE, db_column='User_id')  # Field name made lowercase.
-    stock = models.OneToOneField('Stock', on_delete=models.CASCADE, db_column='Stock_id')  # Field name made lowercase.
+    user = models.ForeignKey('User', on_delete = models.CASCADE, db_column='User_id')  # Field name made lowercase.
+    stock = models.ForeignKey('Stock', on_delete = models.CASCADE, db_column='Stock_id')  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'comment'
 
 class CommentLike(models.Model):
-    user = models.OneToOneField('User', on_delete=models.CASCADE, db_column='User_id', primary_key=True)  # Field name made lowercase.
-    post = models.OneToOneField(Comment, on_delete=models.CASCADE, db_column='Post_id')  # Field name made lowercase.
+    user = models.OneToOneField('User', on_delete = models.CASCADE, db_column='User_id', primary_key=True)  # Field name made lowercase.
+    post = models.ForeignKey(Comment, on_delete = models.CASCADE, db_column='Post_id')  # Field name made lowercase.
     like = models.CharField(db_column='Like', max_length=1)  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'comment_like'
         unique_together = (('user', 'post'),)
 
 class DayInfo(models.Model):
-    stock = models.ForeignKey(Stock, on_delete=models.CASCADE, db_column='Stock_id')  # Field name made lowercase.
+    info_id = models.AutoField(primary_key=True)
+    stock = models.ForeignKey('Stock', on_delete = models.CASCADE, db_column='Stock_id')
     date = models.DateField(db_column='Date')  # Field name made lowercase.
-    open_price = models.IntegerField(db_column='Open_price')  # Field name made lowercase.
-    high_price = models.IntegerField(db_column='High_price')
-    low_price = models.IntegerField(db_column='Low_price')
-    close_price = models.IntegerField(db_column='Close_price')
-    transaction_amount = models.IntegerField(db_column='Transaction_amount')  # Field name made lowercase.
-    rate = models.FloatField(db_column='Rate')
-    BPS = models.IntegerField(db_column='BPS')
-    PER = models.FloatField(db_column='PER')
-    PBR = models.FloatField(db_column='PBR')
-    EPS = models.IntegerField(db_column='EPS')
-    market_cap = models.IntegerField(db_column='Market_cap')
-    
-    class Meta:
-        db_table = 'day_info'
-        constraints = [
-            models.UniqueConstraint(
-                fields=["stock", "date"],
-                name = "unique day info"
-            )
-        ]
-        # unique_together = (('stock', 'date'),)
+    open_price = models.IntegerField(db_column='open_price')
+    high_price = models.IntegerField(db_column='high_price')
+    low_price = models.IntegerField(db_column='low_price')
+    closing_price = models.IntegerField(db_column='closing_price')
+    transaction_value = models.IntegerField(db_column='transaction_value')
+    transaction_amount = models.IntegerField(db_column='transaction_amount')
+    fluctuation_rate = models.FloatField(db_column='fluctuation_rate')
+    bps = models.FloatField(db_column='BPS')  # Field name made lowercase.
+    per = models.FloatField(db_column='PER')  # Field name made lowercase.
+    pbr = models.FloatField(db_column='PBR')  # Field name made lowercase.
+    eps = models.FloatField(db_column='EPS')  # Field name made lowercase.
+    market_cap = models.IntegerField(db_column='market_cap')
 
-    # class UniqueConstraints:
-    #     fields = ['stock', 'date']
-    #     name = 'DayInfokey'
+    class Meta:
+        managed = True
+        db_table = 'day_info'
 
 class InterestedIn(models.Model):
-    user = models.OneToOneField('User', on_delete=models.CASCADE, db_column='User_id', primary_key=True)  # Field name made lowercase.
-    stock = models.OneToOneField('Stock', on_delete=models.CASCADE, db_column='Stock_id')  # Field name made lowercase.
+    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_id', primary_key=True)  # Field name made lowercase.
+    stock = models.ForeignKey('Stock', models.DO_NOTHING, db_column='Stock_id')  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'interested_in'
         unique_together = (('user', 'stock'),)
-
 
 class TradeRecord(models.Model):
     record_id = models.AutoField(db_column='Record_id', primary_key=True)  # Field name made lowercase.
@@ -80,12 +75,13 @@ class TradeRecord(models.Model):
     trade_type = models.CharField(db_column='Trade_type', max_length=1)  # Field name made lowercase.
     trade_date = models.DateTimeField(db_column='Trade_date')  # Field name made lowercase.
     memo = models.CharField(db_column='Memo', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    user = models.OneToOneField('User', on_delete=models.CASCADE, db_column='User_id')  # Field name made lowercase.
-    stock = models.OneToOneField(Stock, on_delete=models.CASCADE, db_column='Stock_id')  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_id')  # Field name made lowercase.
+    stock = models.ForeignKey(Stock, models.DO_NOTHING, db_column='Stock_id')  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'trade_record'
-
+        
 class User(models.Model):
     user_id = models.AutoField(db_column='User_id', primary_key=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', unique=True, max_length=30)  # Field name made lowercase.
@@ -93,4 +89,5 @@ class User(models.Model):
     phone_number = models.CharField(db_column='Phone_number', unique=True, max_length=30)  # Field name made lowercase.
 
     class Meta:
+        managed = True
         db_table = 'user'
