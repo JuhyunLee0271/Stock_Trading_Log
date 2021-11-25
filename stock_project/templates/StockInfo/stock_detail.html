@@ -1,4 +1,16 @@
+<<<<<<< HEAD
+{% if stock_detail %}
+    <ul>
+    {% for info in stock_detail %}
+        <li> {{info.date}} : {{ info.stock.name }} {{ info.close_price }} </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if commentList %}
+=======
 {% if stock_day_info %}
+>>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 
     <div><p><h1>{{stock.name}}</h1></p></div>
     <br>
@@ -9,7 +21,12 @@
         <li>{{day_info}}</li>>
     {% endfor %}
     </ul>
+<<<<<<< HEAD
+{% else %}
+    <h5>댓글이 없습니다.</h5>
+=======
 
 {% else %}
     <p>조회된 정보가 없습니다. </p>
+>>>>>>> d3ed87a28f6321df21e9d734ad86cbe2536dfc42
 {% endif %}
