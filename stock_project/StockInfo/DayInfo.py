@@ -17,19 +17,20 @@ class DayInfoCrawler:
         startDate = self.today
         while len(self.days) < self.interval:
             if 0 <= startDate.weekday() <= 4:
-                weekday = str(startDate).replace('-','')
-                self.days.append(weekday)
+                # weekday = str(startDate).replace('-','')
+                self.days.append(startDate)
             startDate -= timedelta(1)
         self.days.reverse()
 
     def GetDayInfo(self):
         for day in self.days:
-            ohlcv_1 = stock.get_market_ohlcv_by_ticker(day, market="KOSPI"); time.sleep(1)
-            ohlcv_2 = stock.get_market_ohlcv_by_ticker(day, market="KOSDAQ"); time.sleep(1)
-            fundamental_1 = stock.get_market_fundamental_by_ticker(day, market="KOSPI"); time.sleep(1)
-            fundamental_2 = stock.get_market_fundamental_by_ticker(day, market="KOSDAQ"); time.sleep(1)
-            marketcap_1 = stock.get_market_cap_by_ticker(day, market="KOSPI"); time.sleep(1)
-            marketcap_2 = stock.get_market_cap_by_ticker(day, market="KOSDAQ"); time.sleep(1)
+            date = str(day).replace('-', '')
+            ohlcv_1 = stock.get_market_ohlcv_by_ticker(date, market="KOSPI"); time.sleep(1)
+            ohlcv_2 = stock.get_market_ohlcv_by_ticker(date, market="KOSDAQ"); time.sleep(1)
+            fundamental_1 = stock.get_market_fundamental_by_ticker(date, market="KOSPI"); time.sleep(1)
+            fundamental_2 = stock.get_market_fundamental_by_ticker(date, market="KOSDAQ"); time.sleep(1)
+            marketcap_1 = stock.get_market_cap_by_ticker(date, market="KOSPI"); time.sleep(1)
+            marketcap_2 = stock.get_market_cap_by_ticker(date, market="KOSDAQ"); time.sleep(1)
 
             ohlcv = pd.concat([ohlcv_1, ohlcv_2],axis=0, join='inner')
             fundamental = pd.concat([fundamental_1, fundamental_2],axis=0, join='inner')

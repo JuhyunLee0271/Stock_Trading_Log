@@ -1,8 +1,14 @@
+{% if time %}
+    <h5>최종 업데이트 시간: {{time}} </h5>
+{% else %}
+    <h5> 업데이트 내역이 없습니다.</h5>
+{% endif %}
+
 {% if stock_list %}
 
     <ul>
     {% for stock in stock_list %}
-        <li>{{stock}}</li>
+        <li>{{stock.0}}</li>
     {% endfor %}
     </ul>
 

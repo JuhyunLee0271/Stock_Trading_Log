@@ -1,3 +1,11 @@
+{% if stock_detail %}
+    <ul>
+    {% for info in stock_detail %}
+        <li> {{info.date}} : {{ info.stock.name }} {{ info.close_price }} </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
 {% if commentList %}
 
     
@@ -8,4 +16,6 @@
         <li> {{comment.Post_id}} - {{comment.Content}}</li>
     {% endfor %}
     </ul>
+{% else %}
+    <h5>댓글이 없습니다.</h5>
 {% endif %}

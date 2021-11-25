@@ -7,5 +7,5 @@ app_name = 'StockInfo'
 urlpatterns = [
     # localhost:8080/StockInfo/<page_num>
     path('<int:page_num>', views.list, name='list'),
-    path('detail/<int:stock_id>', views.detail, name='detail'),
+    path('detail/<str:stock_id>', views.detail, name='detail'),
 ]
