@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'stock_project.wsgi.application'
 # Mysql Database ConnectionS
 """
 Set your MySQL Database Configuration
-"""
+"""ㄴㄹㄴㅇㄹㄴㅇㄹ
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
