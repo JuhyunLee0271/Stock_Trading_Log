@@ -58,6 +58,7 @@ class DayInfo(models.Model):
     class Meta:
         managed = True
         db_table = 'day_info'
+        unique_together = (('stock', 'date'),)
 
 class InterestedIn(models.Model):
     user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_id', primary_key=True)  # Field name made lowercase.

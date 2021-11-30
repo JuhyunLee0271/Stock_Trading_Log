@@ -24,7 +24,7 @@ def list(request, page_num):
     # 주식 모든 종목들의 List: stock_list
     for code in price_now: 
         # print(code[1]['종목명'])
-        stock_list.append([code[1]['종목명'], code[1]['등락률'], code[1]['종가'], code[1]['거래량'], int(code[1]['거래대금']//1000000)])
+        stock_list.append([code[0], code[1]['종목명'], code[1]['등락률'], code[1]['종가'], code[1]['거래량'], int(code[1]['거래대금']//1000000)])
     
     context = {'stock_list': stock_list, 'time': datetime.now(), 'page_num': page_num}
     return render(request, 'StockInfo/stock_list.html', context)

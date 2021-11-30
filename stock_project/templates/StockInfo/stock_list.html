@@ -9,7 +9,7 @@
     거래대금 별 
     <ul>
     {% for stock in stock_list %}
-        <li>{{stock}}</li>
+        <li>{{stock}} - <a href = "{% url 'StockInfo:detail' stock.0 1 %}">상세보기</a>></li>
     {% endfor %}
     </ul>
 
