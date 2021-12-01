@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.db import connection
-from .models import DayInfo, Stock
+from .models import DayInfo, Stock, User
 from .RealtimeInfo import TodayInfoCrawler
 from datetime import datetime
 
@@ -38,3 +38,12 @@ def detail(request, stock_id, page_num):
     context = {"stock_detail": stock_detail, "stock_name": stock_name, "page_num": page_num}
 
     return render(request, 'StockInfo/stock_detail.html', context)
+
+
+def comment(request, stock_id, page_num):
+    stock = get_object_or_404(Stock, pk = stock_id)
+    if User.objects.all().count() == 0:
+        User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
+    temp = User.objects.get(email = "aa.aa")
+    stock.comment_set.create(content = request.POST.get('content'), create_time = datetime.now(), user = temp, stock = Stock.objects.get(stock_id = stock_id))
+    return redirect('StockInfo:detail', stock_id = stock_id, page_num = page_num)

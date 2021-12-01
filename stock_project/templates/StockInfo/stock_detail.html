@@ -9,17 +9,21 @@
     </ul>
 {% endif %}
 
-{% if commentList %}
-
-    <div><p><h1>{{stock.name}}</h1></p></div>
-    <br>
+{% if stock_name.comment_set %}
+    <hr>
+    <h3>댓글</h3>
     
-    <ul>
-    {% for day_info in stock_day_info %}
-        <li>{{day_info}}</li>>
+    {% for comment in stock_name.comment_set.all %}
+        <dt>{{comment.user.nickname}}</dt>
+        <dd>{{ comment.content }} - {{ comment.create_time }}</dd>
     {% endfor %}
-    </ul>
+    
     
 {% else %}
     <h5>댓글이 없습니다.</h5>
 {% endif %}
+<form action="{% url 'StockInfo:comment' stock_name.stock_id page_num %}" method="post">
+    {% csrf_token %}
+    <textarea name="content" id="content" rows="15"></textarea>
+    <input type="submit" value="댓글등록">
+</form>

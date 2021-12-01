@@ -13,4 +13,5 @@ urlpatterns = [
     # localhost:8080/StockInfo/detail/<stock_id>/<page_num>
     # 각 주식별 60일치 정보인 DAY_INFO를 조회
     path('detail/<str:stock_id>/<int:page_num>', views.detail, name='detail'),
+    path('detail/<str:stock_id>/<int:page_num>/comment', views.comment, name='comment'),
 ]
