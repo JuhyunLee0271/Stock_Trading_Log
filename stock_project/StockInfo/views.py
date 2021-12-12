@@ -46,9 +46,9 @@ def detail(request, stock_id):
     
     paginator = Paginator(stock_detail, 10)
     page_obj = paginator.get_page(page)
-    if User.objects.all().count() == 0:
-        User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
-    temp = User.objects.get(email = "aa.aa")
+    # if User.objects.all().count() == 0:
+    #     User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
+    temp = User.objects.get(email = "wngus392@ajou.ac.kr")
     ex =  InterestedIn.objects.filter(stock_id = stock_id, user = temp)
     
     context = {"stock_detail": page_obj, "stock_name": stock_name, "stock_interest": ex}
@@ -58,17 +58,17 @@ def detail(request, stock_id):
 
 def comment(request, stock_id):
     stock = get_object_or_404(Stock, pk = stock_id)
-    if User.objects.all().count() == 0:
-        User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
-    temp = User.objects.get(email = "aa.aa")
+    # if User.objects.all().count() == 0:
+    #     User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
+    temp = User.objects.get(email = "wngus392@ajou.ac.kr")
     stock.comment_set.create(content = request.POST.get('content'), create_time = datetime.now(), user = temp, stock = Stock.objects.get(stock_id = stock_id))
     return redirect('StockInfo:detail', stock_id = stock_id)
 
 def interested(request, stock_id):
     stock = get_object_or_404(Stock, pk = stock_id)
-    if User.objects.all().count() == 0:
-        User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
-    temp = User.objects.get(email = "aa.aa")
+    # if User.objects.all().count() == 0:
+    #     User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
+    temp = User.objects.get(email = "wngus392@ajou.ac.kr")
     if InterestedIn.objects.filter(stock_id = stock_id, user = temp).exists():
         InterestedIn.objects.get(stock_id = stock_id, user = temp).delete()
     else:
@@ -76,9 +76,9 @@ def interested(request, stock_id):
     return redirect('StockInfo:detail', stock_id = stock_id)
 
 def interestinfo(request):
-    if User.objects.all().count() == 0:
-        User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
-    temp = User.objects.get(email = "aa.aa")
+    # if User.objects.all().count() == 0:
+    #     User.objects.create(email = "aa.aa", nickname = "king", phone_number = "010-1234-5678")
+    temp = User.objects.get(email = "wngus392@ajou.ac.kr")
     page = request.GET.get('page', '1')
     stock_list = []
     interlist = InterestedIn.objects.filter(user = temp)
