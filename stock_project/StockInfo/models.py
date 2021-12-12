@@ -29,7 +29,7 @@ class Comment(models.Model):
         db_table = 'comment'
 
 class CommentLike(models.Model):
-    user = models.OneToOneField('User', on_delete = models.CASCADE, db_column='User_id', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', on_delete = models.CASCADE, db_column='User_id')  # Field name made lowercase.
     post = models.ForeignKey(Comment, on_delete = models.CASCADE, db_column='Post_id')  # Field name made lowercase.
     like = models.CharField(db_column='Like', max_length=1)  # Field name made lowercase.
 
@@ -61,9 +61,9 @@ class DayInfo(models.Model):
         unique_together = (('stock', 'date'),)
 
 class InterestedIn(models.Model):
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_id', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_id')  # Field name made lowercase.
     stock = models.ForeignKey('Stock', models.DO_NOTHING, db_column='Stock_id')  # Field name made lowercase.
-
+    
     class Meta:
         managed = True
         db_table = 'interested_in'

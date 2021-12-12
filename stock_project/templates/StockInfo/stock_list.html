@@ -1,18 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container my-3">
 {% if time %}
     <h5>최종 업데이트 시간: {{time}} </h5>
 {% else %}
     <h5> 업데이트 내역이 없습니다.</h5>
 {% endif %}
-
-{% if stock_list %}
-
-    거래대금 별 
-    <ul>
-    {% for stock in stock_list %}
-        <li>{{stock}} - <a href = "{% url 'StockInfo:detail' stock.0 1 %}">상세보기</a>></li>
-    {% endfor %}
+    <table class = "table">
+        <thead>
+        <tr class = "thead-dark">
+            <th>종목명</th>
+            <th>등락률</th>
+            <th>종가</th>
+            <th>거래량</th>
+            <th>거래대금</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% if stock_list %}
+        {% for stock in stock_list %}
+        <tr>
+            <td>
+                <a href = "{% url 'StockInfo:detail' stock.0 %}">{{ stock.1 }}</a>
+            </td>
+            <td class = "rate">{{ stock.2 }}</td>
+            <td class = "price">{{ stock.3 }}</td>
+            <td class = "num">{{ stock.4 }}</td>
+            <td class = "amount">{{ stock.5 }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="5">주식이 없습니다.</td>
+        </tr>
+    {% endif %}
+        </tbody>
+    </table>
+    <script language = "javascript">
+        var elem = document.getElementsByClassName("rate");
+        for (var i = 0; i < elem.length; i++) {
+            var rate = (parseFloat(elem[i].innerHTML));
+            elem[i].innerHTML += "%";
+            if (rate < 0) {
+                elem[i].style.color = "blue";
+            }
+            else if (rate > 0) {
+                elem[i].style.color = "red";
+            }
+        }
+        var ele = document.getElementsByClassName("price");
+        for (var i = 0; i <ele.length; i++) {
+            ele[i].innerHTML = parseInt(ele[i].innerHTML).toLocaleString('ko-KR') + "원";
+        }
+        var e = document.getElementsByClassName("num");
+        for (var i = 0; i <ele.length; i++) {
+            e[i].innerHTML = parseInt(e[i].innerHTML).toLocaleString('ko-KR');
+        }
+        var el = document.getElementsByClassName("amount");
+        for (var i = 0; i < el.length; i++) {
+            el[i].innerHTML = parseInt(el[i].innerHTML).toLocaleString('ko-KR') + "백만원";
+        }
+    </script>
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if stock_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stock_list.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in stock_list.paginator.page_range %}
+        {% if page_number >= stock_list.number|add:-5 and page_number <= stock_list.number|add:5 %}    
+            {% if page_number == stock_list.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if stock_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stock_list.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
     </ul>
-
-{% else %}
-    <p> 조회된 주식이 없습니다.</p>
-{% endif %}
+    <!-- 페이징처리 끝 -->
+</div>
+{% endblock %}

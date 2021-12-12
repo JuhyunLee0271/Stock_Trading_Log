@@ -1,29 +1,127 @@
-{% if stock_detail %}
-    <ul>
-    <h5>{{stock_name.name}}</h5>
-    {% for info in stock_detail %}
-        <!-- <li> {{info.date}} : {{ info.stock.name }} {{ info.close_price }} </li> -->
-        <li> {{info.date}} - {{info.open_price}} {{info.high_price}} {{info.low_price}} {{info.closing_price}} {{info.transaction_value}} {{info.transaction_amount}}
-                             {{info.fluctuation_rate}} {{info.bps}} {{info.per}} {{info.pbr}} {{info.eps}} {{info.market_cap}}</li>
-    {% endfor %}
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container my-3">
+    <div class="d-flex justify-content-between">
+        <div></div>
+        <div style="font-size: 40px; text-align: conter;">{{stock_name.name}}</div>
+        <div>
+            <a href="{% url 'StockInfo:interested' stock_name.stock_id %}" class="btn btn-outline-primary btn-sm" id="interest">
+            {% if stock_interest %}
+                관삼종목 삭제
+            {% else %}
+                관심종목 추가
+            {% endif %}
+            </a>
+        </div>
+    </div>
+    <table class = "table">
+        <thead>
+            <tr class = "thead-dark">
+                <th>날짜</th>
+                <th>시가</th>
+                <th>고가</th>
+                <th>저가</th>
+                <th>종가</th>
+                <th>거래대금</th>
+                <th>거래량</th>
+                <th>등락률</th>
+                <th>BPS</th>
+                <th>PER</th>
+                <th>PBR</th>
+                <th>EPS</th>
+                <th>시가총액</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if stock_detail %}
+                {% for info in stock_detail %}
+                <tr>
+                    <td>{{info.date}}</td>
+                    <td>{{info.open_price}}</td>
+                    <td>{{info.high_price}}</td>
+                    <td>{{info.low_price}}</td>
+                    <td>{{info.closing_price}}</td>
+                    <td>{{info.transaction_value}}</td>
+                    <td>{{info.transaction_amount}}</td>
+                    <td>{{info.fluctuation_rate}}</td>
+                    <td>{{info.bps}}</td>
+                    <td>{{info.per}}</td>
+                    <td>{{info.pbr}}</td>
+                    <td>{{info.eps}}</td>
+                    <td>{{info.market_cap}}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="13">상세정보 없습니다.</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if stock_detail.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stock_detail.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in stock_detail.paginator.page_range %}   
+            {% if page_number == stock_detail.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if stock_detail.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ stock_detail.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
     </ul>
-{% endif %}
 
 {% if stock_name.comment_set %}
     <hr>
     <h3>댓글</h3>
     
     {% for comment in stock_name.comment_set.all %}
-        <dt>{{comment.user.nickname}}</dt>
-        <dd>{{ comment.content }} - {{ comment.create_time }}</dd>
+        <div class="card my-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ comment.user.nickname }}</h5>
+            <div class="card-text" style="white-space: pre-line;">{{ comment.content }}</div>
+            <div class="d-flex justify-content-end">
+                <div class="badge badge-light p-2">
+                    {{ comment.create_time }}
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
     
     
 {% else %}
     <h5>댓글이 없습니다.</h5>
 {% endif %}
-<form action="{% url 'StockInfo:comment' stock_name.stock_id page_num %}" method="post">
+<form action="{% url 'StockInfo:comment' stock_name.stock_id %}" method="post">
     {% csrf_token %}
-    <textarea name="content" id="content" rows="15"></textarea>
-    <input type="submit" value="댓글등록">
+    <div class="form-gruop">
+        <textarea name="content" id="content" class="form-control" rows="3"></textarea>
+    </div>
+    <input type="submit" value="댓글등록" class="btn btn-primary">
 </form>
+</div>
+{% endblock %}
