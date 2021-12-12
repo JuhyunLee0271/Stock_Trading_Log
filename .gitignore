@@ -1,0 +1,7 @@
+__pycache__/
+
+**/settings.py
+
+migrations/
+
+*.pyc

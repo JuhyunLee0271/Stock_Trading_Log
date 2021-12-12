@@ -18,7 +18,7 @@ def signup(request):
                             phone_number = request.POST['phone_number'],)
             auth.login(request, user)
             return redirect('/')
-        return render(request, 'Login/signup.html')
+        return redirect('StockInfo:list')
     else:
         form = UserCreationForm
         return render(request, 'Login/signup.html', {'form':form})

@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'stock_project.wsgi.application'
 #     }
 # }
 
-# Mysql Database Connection
+# Mysql Database ConnectionS
 """
 Set your MySQL Database Configuration
 """
@@ -99,9 +99,9 @@ DATABASES = {
         'NAME':'stock_db',
         'USER':'root',
         # Enter your own password
-        'PASSWORD':'!',
+        'PASSWORD':'rkdwldud12',
         'HOST':'localhost',
-        'PORT': '3307',
+        'PORT': '3306',
     }
 }
 
